@@ -254,7 +254,7 @@ namespace Lesson_04
                                                             if (confirmTranfer == "y" || confirmTranfer == "yes")
                                                             {
                                                                 account1Balance += depositAmout;
-                                                                initBalance -= depositAmout;
+                                                                initBalance = initBalance - depositAmout + onSiteFee;
                                                                 Console.ForegroundColor = ConsoleColor.Green;
                                                                 Console.WriteLine($"\n✅ Chuyển tiền thành công!");
                                                                 Console.WriteLine($"Số tiền đã chuyển:     {depositAmout:N0} VNĐ");
@@ -272,8 +272,53 @@ namespace Lesson_04
                                                     }
 
 
+                                                } 
+
+                                                if(userMethodChoice == "b" || userMethodChoice == "B") {
+                                                    decimal outSiteFee = Math.Max(depositAmout * 0.01m, 11000m);
+                                                    Console.WriteLine("Nhập số tài khoản");
+                                                    string accountNumber = Console.ReadLine()?.Trim();
+
+                                                    if (string.IsNullOrEmpty(accountNumber) || string.IsNullOrWhiteSpace(accountNumber))
+                                                    {
+                                                        Console.ForegroundColor = ConsoleColor.Red;
+                                                        Console.WriteLine("Tài khoản không được để trông hoặc có khoản trắng!");
+                                                        Console.ResetColor();
+                                                    }
+                                                    else
+                                                    {
+                                                        if (accountNumber.StartsWith("BIDV"))
+                                                        {
+                                                            Console.ForegroundColor = ConsoleColor.Yellow;
+                                                            Console.Write($"\nXác nhận chuyển tiền {depositAmout:N0} VNĐ? (y/n): ");
+                                                            Console.ResetColor();
+                                                            string? confirmTranfer = Console.ReadLine()?.Trim().ToLower();
+
+                                                            if (confirmTranfer == "y" || confirmTranfer == "yes")
+                                                            {
+                                                                account2Balance += depositAmout;
+                                                                initBalance -= depositAmout;
+                                                                Console.ForegroundColor = ConsoleColor.Green;
+                                                                Console.WriteLine($"\n✅ Chuyển tiền thành công!");
+                                                                Console.WriteLine($"Số tiền đã chuyển:     {depositAmout:N0} VNĐ");
+                                                                Console.WriteLine($"Số dư còn lại:   {initBalance:N0} VNĐ");
+                                                                Console.WriteLine($"Số tiền cho người 2:   {account2Balance:N0} VNĐ");
+                                                                Console.ResetColor();
+                                                            }
+                                                            else
+                                                            {
+                                                                Console.ForegroundColor = ConsoleColor.Yellow;
+                                                                Console.WriteLine("❌ Đã hủy giao dịch.");
+                                                                Console.ResetColor();
+                                                            }
+                                                        }
+                                                    }
+
                                                 }
+                                                break;
                                             }
+                                            Console.WriteLine("\nNhấn Enter để quay lại menu...");
+                                            Console.ReadLine();
                                             break;
 
                                         case 4:
